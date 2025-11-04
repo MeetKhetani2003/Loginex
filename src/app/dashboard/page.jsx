@@ -6,23 +6,21 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Run only after mount
     const token = localStorage.getItem("token");
 
     if (!token) {
       console.warn("No token found, redirecting...");
-    //   window.location.href = "/login";
+      window.location.href = "/login";
       return;
     }
 
     try {
-      // Decode token safely
       const payload = JSON.parse(atob(token.split(".")[1]));
       setUser(payload);
     } catch (err) {
       console.error("Invalid token:", err);
       localStorage.removeItem("token");
-    //   window.location.href = "/login";
+      window.location.href = "/login";
     } finally {
       setLoading(false);
     }

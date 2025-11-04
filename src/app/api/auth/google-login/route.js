@@ -23,7 +23,6 @@ export async function POST(req) {
     user,
     token, 
   });
-
   res.cookies.set("authToken", token, {
     httpOnly: true,
     maxAge: 10 * 24 * 60 * 60, 

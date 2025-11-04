@@ -11,7 +11,7 @@ export default function Dashboard() {
 
     if (!token) {
       console.warn("No token found, redirecting...");
-      //   window.location.href = "/login";
+    //   window.location.href = "/login";
       return;
     }
 
@@ -22,7 +22,7 @@ export default function Dashboard() {
     } catch (err) {
       console.error("Invalid token:", err);
       localStorage.removeItem("token");
-      //   window.location.href = "/login";
+    //   window.location.href = "/login";
     } finally {
       setLoading(false);
     }

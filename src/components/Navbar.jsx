@@ -53,10 +53,10 @@ export default function Navbar() {
 
   const navLinks = [
     { name: "Home", path: "/" },
+    { name: "VPS", path: "/store" },
     { name: "Services", path: "/services" },
     { name: "About", path: "/about" },
     { name: "Contact", path: "/contact" },
-    { name: "Template Store", path: "/store" },
   ];
 
   return (

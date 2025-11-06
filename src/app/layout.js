@@ -2,6 +2,10 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import SmoothScrollProvider from "@/components/SmoothScrollProvider";
+// FIX: Using absolute path based on the common Next.js setup.
+// Assuming SmoothScrollProvider.jsx is located in the app directory root.
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -21,15 +25,15 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>
+      <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <GoogleOAuthProvider
           clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}
         >
-          <Navbar/>
-          <div className="my-32">
-
-          {children}
-          </div>
+          <SmoothScrollProvider>
+            <Navbar />
+            <div className="my-32">{children}</div>
+            <Footer />
+          </SmoothScrollProvider>
         </GoogleOAuthProvider>
       </body>
     </html>

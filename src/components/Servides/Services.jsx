@@ -19,6 +19,8 @@ import {
   Mail,
   Smartphone,
 } from "lucide-react";
+import axios from "axios";
+import { submitInquiry } from "@/lib/api";
 
 // --- 1. Data Structure for Services ---
 
@@ -264,30 +266,41 @@ const InquiryModal = ({ isOpen, onClose, service }) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setStatus(null);
+ const handleSubmit = async (e) => {
+   e.preventDefault();
+   setIsSubmitting(true);
+   setStatus(null);
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+   try {
+     let serviceType = "general";
+     if (service.id === "minecraft") serviceType = "minecraft";
+     else if (service.id === "webdev") serviceType = "webdev";
+     else if (service.id === "vps") serviceType = "vps";
 
-    // Log data and show success message
-    console.log("Inquiry Submitted:", {
-      service: service.title,
-      ...formData,
-    });
+     await submitInquiry({
+       type: serviceType,
+       email: formData.email,
+       mobile: formData.mobile,
+       description: formData.description,
+     });
 
-    setStatus("success");
-    setIsSubmitting(false);
+     setStatus("success");
+   } catch (err) {
+     setStatus("error");
+     console.error("Inquiry failed:", err.message);
+   } finally {
+     setIsSubmitting(false);
+   }
 
-    // Close modal after a delay
-    setTimeout(() => {
-      onClose();
-      setFormData({ email: "", mobile: "", description: "" });
-      setStatus(null);
-    }, 2000);
-  };
+   // Auto-close after success
+   if (status === "success") {
+     setTimeout(() => {
+       onClose();
+       setFormData({ email: "", mobile: "", description: "" });
+       setStatus(null);
+     }, 2000);
+   }
+ };
 
   const inputClasses =
     "w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition shadow-sm";
@@ -399,18 +412,23 @@ const InquiryModal = ({ isOpen, onClose, service }) => {
                 isSubmitting
                   ? "bg-gray-400 text-gray-700 cursor-not-allowed"
                   : status === "success"
-                  ? "bg-green-500 text-white cursor-not-allowed"
-                  : "bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 shadow-blue-300/50"
+                  ? "bg-green-500 text-white"
+                  : status === "error"
+                  ? "bg-red-500 text-white"
+                  : "bg-blue-600 text-white hover:bg-blue-700"
               }`}
             >
               {isSubmitting ? (
                 <>
-                  <Loader2 size={20} className="animate-spin" /> Sending
-                  Inquiry...
+                  <Loader2 size={20} className="animate-spin" /> Sending...
                 </>
               ) : status === "success" ? (
                 <>
-                  <CheckCircle size={20} /> Sent! We'll contact you soon.
+                  <CheckCircle size={20} /> Sent!
+                </>
+              ) : status === "error" ? (
+                <>
+                  <X size={20} /> Failed
                 </>
               ) : (
                 <>

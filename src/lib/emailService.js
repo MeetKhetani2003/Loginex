@@ -9,7 +9,36 @@ const transporter = nodemailer.createTransport({
   maxConnections: 5,
   maxMessages: 100,
 });
+export const sendInvoiceEmail = async ({
+  to,
+  order,
+  planName,
+  isInternal = false,
+}) => {
+  const subject = isInternal
+    ? `New VPS Order: ${planName} ($${order.payment.amount})`
+    : `Your VPS Order Confirmation - ${planName}`;
 
+  const html = `
+    <h1>${isInternal ? "New Order Received" : "Thank You for Your Order!"}</h1>
+    <p><strong>Plan:</strong> ${planName}</p>
+    <p><strong>Amount:</strong> $${order.payment.amount}</p>
+    <p><strong>Transaction ID:</strong> ${order.payment.transactionId}</p>
+    <p><strong>Expiry:</strong> ${new Date(
+      order.expiryTime
+    ).toLocaleDateString()}</p>
+    ${isInternal ? `<p><strong>User ID:</strong> ${order.user}</p>` : ""}
+    <hr>
+    <small>Order ID: ${order._id}</small>
+  `;
+
+  await transporter.sendMail({
+    from: '"Your Company" <no-reply@yourcompany.com>',
+    to,
+    subject,
+    html,
+  });
+};
 /**
  * Sends an email notification about a new inquiry.
  * @param {string} receiverEmail - The departmental email address to notify.
@@ -60,3 +89,4 @@ async function sendNotificationEmail(receiverEmail, inquiryData) {
 }
 
 export default sendNotificationEmail
+

@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion"; // Import AnimatePresence for the modal
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Cpu,
   Server,
@@ -13,79 +13,22 @@ import {
   AlertTriangle,
   MemoryStick,
   Trophy,
-  X, // Icon for closing the modal
+  X,
 } from "lucide-react";
 
-// --- MOCK API DATA & CONSTANTS ---
-
-// This structure simulates the data fetched from the API
-const mockPlans = [
-  {
-    id: "vps-01",
-    name: "Nano",
-    tagline: "Starter VPS for personal projects and testing.",
-    cpu: { value: 1, label: "vCPU @ 3.0GHz", icon: Cpu },
-    ram: { value: 1, label: "GB DDR5", icon: MemoryStick },
-    storage: { value: 25, label: "NVMe SSD", icon: HardDrive },
-    bandwidth: { value: 1, label: "TB High-Speed", icon: Cloud },
-    price: 4.99,
-    isFeatured: false,
-  },
-  {
-    id: "vps-02",
-    name: "Standard",
-    tagline: "Ideal balance for small websites and game bots.",
-    cpu: { value: 2, label: "vCPUs @ 3.5GHz", icon: Cpu },
-    ram: { value: 4, label: "GB DDR5", icon: MemoryStick },
-    storage: { value: 80, label: "NVMe SSD", icon: HardDrive },
-    bandwidth: { value: 3, label: "TB High-Speed", icon: Cloud },
-    price: 19.99,
-    isFeatured: true,
-  },
-  {
-    id: "vps-03",
-    name: "Pro",
-    tagline:
-      "High-power performance for demanding applications or small clusters.",
-    cpu: { value: 4, label: "vCPUs @ 4.0GHz", icon: Cpu },
-    ram: { value: 8, label: "GB DDR5", icon: MemoryStick },
-    storage: { value: 150, label: "NVMe SSD", icon: HardDrive },
-    bandwidth: { value: 6, label: "TB High-Speed", icon: Cloud },
-    price: 49.99,
-    isFeatured: false,
-  },
-  {
-    id: "vps-04",
-    name: "Elite",
-    tagline: "Maximum resources for production environments and traffic.",
-    cpu: { value: 8, label: "vCPUs @ 4.5GHz", icon: Cpu },
-    ram: { value: 16, label: "GB DDR5", icon: MemoryStick },
-    storage: { value: 300, label: "NVMe SSD", icon: HardDrive },
-    bandwidth: { value: 10, label: "TB High-Speed", icon: Cloud },
-    price: 99.99,
-    isFeatured: false,
-  },
-];
-
-const API_MODEL = "gemini-2.5-flash-preview-09-2025";
-const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/${API_MODEL}:generateContent?key=`; // Key will be added by Canvas
-
-/**
- * Simulates fetching VPS plans from an external API.
- */
-const fetchVPSPlans = async () => {
-  const apiKey = "";
-  const apiUrl = API_URL + apiKey;
-
-  // Simulate network request delay
-  await new Promise((resolve) => setTimeout(resolve, 1500));
-
-  // Return mock data for demonstration
-  return mockPlans;
+// --- HELPER: Safe string split ---
+const safeSplit = (str, fallbackValue = "N/A", fallbackLabel = "") => {
+  if (!str || typeof str !== "string") {
+    return { value: fallbackValue, label: fallbackLabel };
+  }
+  const parts = str.trim().split(" ");
+  return {
+    value: parts[0] || fallbackValue,
+    label: parts.slice(1).join(" ") || fallbackLabel,
+  };
 };
 
 // --- SUB-COMPONENT: PLAN FEATURE PILL ---
-
 const FeaturePill = ({ icon: Icon, value, label }) => (
   <div className="flex items-center p-3 sm:p-4 bg-white rounded-xl shadow-inner border border-gray-100">
     <Icon size={24} className="text-blue-500 flex-shrink-0 mr-3" />
@@ -100,8 +43,7 @@ const FeaturePill = ({ icon: Icon, value, label }) => (
   </div>
 );
 
-// --- SUB-COMPONENT: VPS CARD (Modified to include onOrderClick) ---
-
+// --- SUB-COMPONENT: VPS CARD ---
 const VPSCard = ({ plan, onOrderClick }) => {
   const isFeatured = plan.isFeatured;
   const baseClasses = `p-6 md:p-8 rounded-3xl transition-all duration-500 h-full flex flex-col`;
@@ -109,6 +51,12 @@ const VPSCard = ({ plan, onOrderClick }) => {
     "bg-blue-600 text-white shadow-2xl shadow-blue-500/50 border-4 border-yellow-300 transform scale-105";
   const regularClasses =
     "bg-white text-gray-900 shadow-xl hover:shadow-2xl border-2 border-transparent hover:border-blue-200";
+
+  // Extract values safely
+  const cpu = safeSplit(plan.cpu, "N/A", "vCPU");
+  const ram = safeSplit(plan.ram, "N/A", "GB RAM");
+  const storage = safeSplit(plan.storage, "N/A", "NVMe");
+  const bandwidth = safeSplit(plan.bandwidth, "N/A", "Unlimited");
 
   return (
     <motion.div
@@ -125,8 +73,6 @@ const VPSCard = ({ plan, onOrderClick }) => {
           <Trophy size={16} /> Best Value
         </div>
       )}
-
-      {/* Header and Title */}
       <h3
         className={`text-4xl font-extrabold tracking-tighter ${
           isFeatured ? "text-white" : "text-gray-800"
@@ -139,16 +85,14 @@ const VPSCard = ({ plan, onOrderClick }) => {
           isFeatured ? "text-blue-200" : "text-gray-500"
         } mb-6`}
       >
-        {plan.tagline}
+        {plan.description || "High-performance VPS"}
       </p>
-
-      {/* Pricing Block */}
       <div
         className={`py-4 border-y ${
           isFeatured ? "border-blue-400" : "border-gray-200"
         } mb-6`}
       >
-        <span className="text-6xl font-black">${plan.price}</span>
+        <span className="text-6xl font-black">${plan.pricePerMonth}</span>
         <span
           className={`text-lg ml-2 ${
             isFeatured ? "text-blue-200" : "text-gray-500"
@@ -157,69 +101,77 @@ const VPSCard = ({ plan, onOrderClick }) => {
           /mo
         </span>
       </div>
-
-      {/* Feature Grid */}
       <div className="grid grid-cols-2 gap-4 flex-grow">
+        <FeaturePill icon={Cpu} value={cpu.value} label={cpu.label} />
+        <FeaturePill icon={MemoryStick} value={ram.value} label={ram.label} />
         <FeaturePill
-          icon={plan.cpu.icon}
-          value={`${plan.cpu.value} ${plan.cpu.label.split(" ")[0]}`}
-          label={plan.cpu.label.split(" ").slice(1).join(" ") || "CPU"}
+          icon={HardDrive}
+          value={storage.value}
+          label={storage.label}
         />
         <FeaturePill
-          icon={plan.ram.icon}
-          value={`${plan.ram.value} GB`}
-          label={plan.ram.label}
-        />
-        <FeaturePill
-          icon={plan.storage.icon}
-          value={`${plan.storage.value} GB`}
-          label={plan.storage.label}
-        />
-        <FeaturePill
-          icon={plan.bandwidth.icon}
-          value={`${plan.bandwidth.value} TB`}
-          label={plan.bandwidth.label}
+          icon={Cloud}
+          value={bandwidth.value}
+          label={bandwidth.label}
         />
       </div>
-
-      {/* CTA Button - Now triggers the modal */}
       <button
         onClick={() => onOrderClick(plan)}
-        className={`mt-8 w-full py-3 rounded-full font-bold text-lg transition shadow-lg 
-                    ${
-                      isFeatured
-                        ? "bg-yellow-400 text-blue-900 hover:bg-yellow-300 shadow-yellow-500/50"
-                        : "bg-blue-600 text-white hover:bg-blue-700 shadow-blue-300/50"
-                    }`}
+        className={`mt-8 w-full py-3 rounded-full font-bold text-lg transition shadow-lg ${
+          isFeatured
+            ? "bg-yellow-400 text-blue-900 hover:bg-yellow-300 shadow-yellow-500/50"
+            : "bg-blue-600 text-white hover:bg-blue-700 shadow-blue-300/50"
+        }`}
       >
-        Order Now
-        <Zap size={18} className="inline ml-2" />
+        Order Now <Zap size={18} className="inline ml-2" />
       </button>
     </motion.div>
   );
 };
 
 // --- SUB-COMPONENT: ORDER MODAL ---
-
 const OrderModal = ({ plan, onClose }) => {
-  // Safety check: if no plan is provided, don't render the modal
   if (!plan) return null;
 
-  // NOTE: Using a custom alert instead of window.alert() as per instructions.
-  const handleFinalOrder = () => {
-    const message = `Order placed successfully for the ${plan.name} Plan at $${plan.price}/mo! We'll redirect you to the payment gateway shortly.`;
-    // Replace this with a custom message box UI in a production environment
-    console.log(message);
-    onClose();
+  const handleFinalOrder = async () => {
+    const userData = localStorage.getItem("user");
+    if (!userData) return alert("Please log in to continue.");
 
-    // Use a simple, non-blocking UI alert message (as a console log equivalent in the absence of a custom component)
-    const mockAlert = document.createElement("div");
-    mockAlert.className =
-      "fixed top-4 right-4 bg-green-500 text-white p-4 rounded-lg shadow-xl z-[9999]";
-    mockAlert.textContent = message.split(".")[0] + "!";
-    document.body.appendChild(mockAlert);
-    setTimeout(() => document.body.removeChild(mockAlert), 4000);
+    let user;
+    try {
+      user = JSON.parse(userData);
+    } catch {
+      return alert("Invalid user data.");
+    }
+
+    if (!user._id || !user.email) return alert("User profile incomplete.");
+
+    try {
+      const res = await fetch("/api/stripe/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          planId: plan._id,
+          planName: plan.name,
+          price: plan.pricePerMonth,
+          userEmail: user.email,
+          userId: user._id,
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Checkout failed");
+      window.location.href = data.url;
+    } catch (err) {
+      alert("Failed to start checkout: " + err.message);
+    }
   };
+
+  // Safe extraction for modal
+  const cpu = safeSplit(plan.cpu, "N/A", "vCPU");
+  const ram = safeSplit(plan.ram, "N/A", "GB RAM");
+  const storage = safeSplit(plan.storage, "N/A", "NVMe");
+  const bandwidth = safeSplit(plan.bandwidth, "N/A", "Unlimited");
 
   return (
     <motion.div
@@ -227,7 +179,7 @@ const OrderModal = ({ plan, onClose }) => {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       className="fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-sm bg-black/50"
-      onClick={onClose} // Close when clicking outside
+      onClick={onClose}
     >
       <motion.div
         initial={{ y: 50, opacity: 0, scale: 0.95 }}
@@ -235,9 +187,8 @@ const OrderModal = ({ plan, onClose }) => {
         exit={{ y: -50, opacity: 0, scale: 0.95 }}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
         className="bg-white rounded-2xl w-full max-w-lg shadow-2xl overflow-hidden"
-        onClick={(e) => e.stopPropagation()} // Prevent click from bubbling to backdrop
+        onClick={(e) => e.stopPropagation()}
       >
-        {/* Header */}
         <div className="p-6 md:p-8 border-b bg-gray-50 flex justify-between items-center">
           <h2 className="text-3xl font-extrabold text-gray-800 flex items-center">
             <Server size={30} className="text-blue-600 mr-3" />
@@ -250,10 +201,7 @@ const OrderModal = ({ plan, onClose }) => {
             <X size={24} />
           </button>
         </div>
-
-        {/* Body Content */}
         <div className="p-6 md:p-8 space-y-6">
-          {/* Plan Summary */}
           <div className="bg-blue-50 p-5 rounded-xl border border-blue-200">
             <p className="text-xl font-semibold text-blue-700">
               Selected Plan:
@@ -261,50 +209,40 @@ const OrderModal = ({ plan, onClose }) => {
             <h3 className="text-4xl font-black text-blue-800 mt-1">
               {plan.name}
             </h3>
-            <p className="text-sm text-gray-600 mt-2">{plan.tagline}</p>
+            <p className="text-sm text-gray-600 mt-2">{plan.description}</p>
           </div>
-
-          {/* Pricing */}
           <div className="flex justify-between items-center py-3 border-t border-b">
             <span className="text-lg font-medium text-gray-600">
               Monthly Price:
             </span>
             <span className="text-3xl font-extrabold text-blue-600">
-              ${plan.price}
+              ${plan.pricePerMonth}
             </span>
           </div>
-
-          {/* Technical Specs Review */}
           <div className="space-y-4">
             <p className="text-xl font-semibold text-gray-800">
               Technical Specifications:
             </p>
             <div className="grid grid-cols-2 gap-4">
+              <FeaturePill icon={Cpu} value={cpu.value} label={cpu.label} />
               <FeaturePill
-                icon={plan.cpu.icon}
-                value={`${plan.cpu.value} ${plan.cpu.label.split(" ")[0]}`}
-                label={plan.cpu.label.split(" ").slice(1).join(" ") || "CPU"}
+                icon={MemoryStick}
+                value={ram.value}
+                label={ram.label}
               />
               <FeaturePill
-                icon={plan.ram.icon}
-                value={`${plan.ram.value} GB`}
-                label={plan.ram.label}
+                icon={HardDrive}
+                value={storage.value}
+                label={storage.label}
               />
               <FeaturePill
-                icon={plan.storage.icon}
-                value={`${plan.storage.value} GB`}
-                label={plan.storage.label}
-              />
-              <FeaturePill
-                icon={plan.bandwidth.icon}
-                value={`${plan.bandwidth.value} TB`}
-                label={plan.bandwidth.label}
+                icon={Cloud}
+                value={bandwidth.value}
+                label={bandwidth.label}
               />
             </div>
           </div>
         </div>
-
-        {/* Footer and Final CTA */}
         <div className="p-6 md:p-8 bg-gray-50 border-t flex justify-end">
           <button
             onClick={handleFinalOrder}
@@ -318,21 +256,22 @@ const OrderModal = ({ plan, onClose }) => {
   );
 };
 
-// --- MAIN COMPONENT: VPS PLANS PAGE (Updated with Modal State) ---
-
+// --- MAIN COMPONENT ---
 const VPSPlansPage = () => {
   const [plans, setPlans] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
-  // State for Modal
   const [selectedPlan, setSelectedPlan] = useState(null);
 
   useEffect(() => {
     const loadPlans = async () => {
       try {
-        const data = await fetchVPSPlans();
-        setPlans(data);
+        const res = await fetch("/api/plans");
+        const json = await res.json();
+        console.log("Plans API Response:", json); // Debug log
+
+        if (!res.ok) throw new Error(json.message || "Failed to load plans");
+        setPlans(json.data || []);
         setLoading(false);
       } catch (err) {
         console.error("Failed to fetch VPS plans:", err);
@@ -343,17 +282,8 @@ const VPSPlansPage = () => {
     loadPlans();
   }, []);
 
-  // Handler to open the modal and set the selected plan
-  const handleOrderNow = (plan) => {
-    setSelectedPlan(plan);
-  };
-
-  // Handler to close the modal
-  const handleCloseModal = () => {
-    setSelectedPlan(null);
-  };
-
-  // --- RENDERING LOGIC ---
+  const handleOrderNow = (plan) => setSelectedPlan(plan);
+  const handleCloseModal = () => setSelectedPlan(null);
 
   if (loading) {
     return (
@@ -375,18 +305,24 @@ const VPSPlansPage = () => {
     );
   }
 
+  if (plans.length === 0) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-6">
+        <p className="text-xl text-gray-600">No VPS plans available.</p>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-white font-inter">
       {/* Hero Section */}
       <section className="pt-32 pb-20 bg-gradient-to-br from-white via-blue-50 to-indigo-100 relative overflow-hidden">
-        <div className=" mx-auto px-6 md:px-12 lg:px-28 text-center relative z-10">
+        <div className="mx-auto px-6 md:px-12 lg:px-28 text-center relative z-10">
           <motion.h1
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.7 }}
-            className="text-5xl sm:text-6xl md:text-7xl font-extrabold tracking-tighter 
-                       bg-gradient-to-r from-blue-700 to-indigo-800 
-                       bg-clip-text text-transparent drop-shadow-md"
+            className="text-5xl sm:text-6xl md:text-7xl font-extrabold tracking-tighter bg-gradient-to-r from-blue-700 to-indigo-800 bg-clip-text text-transparent drop-shadow-md"
           >
             Blazing Fast VPS Hosting
           </motion.h1>
@@ -396,11 +332,10 @@ const VPSPlansPage = () => {
             transition={{ delay: 0.3, duration: 0.7 }}
             className="mt-6 text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto"
           >
-            Select from our range of Virtual Private Servers, built on **NVMe
-            SSDs, high-frequency CPUs, and managed with Pterodactyl** for
-            ultimate control and performance.
+            Select from our range of Virtual Private Servers, built on{" "}
+            <strong>NVMe SSDs</strong>, high-frequency CPUs, and managed with{" "}
+            <strong>Pterodactyl</strong> for ultimate control.
           </motion.p>
-
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
@@ -414,24 +349,21 @@ const VPSPlansPage = () => {
         </div>
       </section>
 
-      {/* Plans Grid Section */}
+      {/* Plans Grid */}
       <section className="bg-gray-50 py-16 md:py-24">
-        <div className=" mx-auto px-6 md:px-12 lg:px-28">
+        <div className="mx-auto px-6 md:px-12 lg:px-28">
           <h2 className="text-4xl font-extrabold text-gray-800 text-center mb-12">
             VPS Tiers for Every Need
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-6">
             {plans
-              // Sort to ensure the featured plan appears early in the display
-              .sort((a, b) => b.isFeatured - a.isFeatured)
+              .sort((a, b) => (b.isFeatured ? 1 : 0) - (a.isFeatured ? 1 : 0))
               .map((plan) => (
-                <div key={plan.id} className="relative">
-                  {/* Pass the handler to the VPSCard */}
+                <div key={plan._id} className="relative">
                   <VPSCard plan={plan} onOrderClick={handleOrderNow} />
                 </div>
               ))}
           </div>
-
           <p className="mt-16 text-center text-gray-500 text-sm">
             Need a custom solution?{" "}
             <a href="#" className="text-blue-600 font-semibold hover:underline">
@@ -442,7 +374,7 @@ const VPSPlansPage = () => {
         </div>
       </section>
 
-      {/* Order Modal (Conditionally Rendered with Animations) */}
+      {/* Modal */}
       <AnimatePresence>
         {selectedPlan && (
           <OrderModal plan={selectedPlan} onClose={handleCloseModal} />

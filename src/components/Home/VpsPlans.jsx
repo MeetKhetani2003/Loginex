@@ -3,7 +3,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { CheckCircle, Zap, Shield, ChevronRight } from "lucide-react";
 
-// 1. Define Plan Data (unchanged)
+// VPS plan data
 const vpsPlans = [
   {
     name: "Starter VPS",
@@ -49,15 +49,11 @@ const vpsPlans = [
   },
 ];
 
-// Animation Variants (unchanged)
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.2,
-    },
+    transition: { staggerChildren: 0.1, delayChildren: 0.2 },
   },
 };
 
@@ -66,36 +62,32 @@ const cardVariants = {
   visible: { y: 0, opacity: 1, transition: { duration: 0.7, ease: "easeOut" } },
 };
 
-// 2. Main Component
 const VPSTiersSection = () => {
   return (
-    <section
-      className="relative py-32 px-6 md:px-16 lg:px-28 bg-[#f5faff] overflow-hidden" // Lighter, modern background
-    >
-      {/* === Background Shape Enhancement (Subtle Grids and Glows) === */}
-      <div className="absolute inset-0 pointer-events-none opacity-50">
-        {/* Subtle grid pattern for tech feel */}
-        <div className="absolute inset-0 bg-[length:50px_50px] bg-grid-blue-50/50"></div>
-        {/* Deep blue glow */}
-        <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-blue-400 blur-[250px] opacity-10 rounded-full animate-pulse-slow"></div>
+    <section className="relative py-32 px-6 md:px-16 lg:px-28 bg-gradient-to-b from-zinc-900 via-zinc-800 to-zinc-900 overflow-hidden text-white">
+      {/* === Background FX === */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-[-200px] right-[-300px] w-[800px] h-[800px] bg-blue-500/40 blur-[250px] rounded-full" />
+        <div className="absolute bottom-[-250px] left-[-200px] w-[700px] h-[700px] bg-cyan-400/40 blur-[220px] rounded-full" />
+        <div className="absolute inset-0 bg-gradient-to-tr from-blue-900/30 via-transparent to-cyan-800/30 mix-blend-overlay" />
       </div>
 
       <div className="max-w-7xl mx-auto relative z-20">
         {/* === Header === */}
         <div className="text-center mb-16">
-          <h3 className="text-md font-extrabold tracking-[0.2em] text-cyan-600 uppercase mb-3">
+          <h3 className="text-sm font-extrabold tracking-[0.25em] text-cyan-400 uppercase mb-3">
             AFFORDABLE PERFORMANCE
           </h3>
-          <h2 className="text-5xl md:text-6xl font-extrabold text-gray-900 leading-snug drop-shadow-sm">
-            Select Your <span className="text-blue-700">Cloud Power</span> Tier
+          <h2 className="text-5xl md:text-6xl font-extrabold leading-snug bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-500 bg-clip-text text-transparent drop-shadow-[0_0_25px_rgba(0,150,255,0.35)]">
+            Select Your Cloud Power Tier
           </h2>
-          <p className="mt-5 text-xl text-gray-700 max-w-3xl mx-auto">
+          <p className="mt-5 text-lg text-zinc-300 max-w-3xl mx-auto leading-relaxed">
             Experience unparalleled speed and reliability tailored for any
             project, from personal sites to enterprise applications.
           </p>
         </div>
 
-        {/* === Plan Cards Container === */}
+        {/* === Plan Cards === */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -103,48 +95,40 @@ const VPSTiersSection = () => {
           viewport={{ once: true, amount: 0.2 }}
           className="grid grid-cols-1 md:grid-cols-3 gap-10 items-stretch"
         >
-          {vpsPlans.map((plan, index) => (
+          {vpsPlans.map((plan) => (
             <motion.div
               key={plan.name}
               variants={cardVariants}
-              // ENHANCEMENT: Complex, layered hover effect
               whileHover={{
                 y: plan.highlight ? -15 : -8,
                 scale: 1.03,
                 transition: { duration: 0.4, type: "spring", stiffness: 150 },
                 boxShadow: plan.highlight
-                  ? "0 40px 60px -15px rgba(0, 100, 255, 0.4)" // Stronger shadow for featured
-                  : "0 20px 30px -5px rgba(0, 50, 150, 0.15)", // Subtle shadow for others
+                  ? "0 40px 60px -15px rgba(0,150,255,0.4)"
+                  : "0 20px 30px -5px rgba(0,150,255,0.15)",
               }}
-              className={`p-9 rounded-3xl transition-all duration-500 relative overflow-hidden group 
-                         ${
-                           plan.highlight
-                             ? "bg-gradient-to-br from-blue-700 to-cyan-600 text-white shadow-3xl shadow-blue-500/50"
-                             : "bg-white/70 backdrop-blur-xl text-gray-800 border border-blue-200/50" // Glassmorphism style
-                         }`}
+              className={`p-9 rounded-3xl transition-all duration-500 relative overflow-hidden group ${
+                plan.highlight
+                  ? "bg-gradient-to-br from-blue-600 to-cyan-600 text-white shadow-[0_0_50px_-10px_rgba(0,150,255,0.4)]"
+                  : "bg-zinc-800/60 backdrop-blur-md border border-blue-500/20 text-zinc-200 shadow-[0_0_35px_-10px_rgba(0,150,255,0.2)]"
+              }`}
             >
-              {/* === CARD BACKGROUND OVERLAY (For Featured Card) === */}
               {plan.highlight && (
-                <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
-              )}
-
-              {/* Highlight Badge */}
-              {plan.highlight && (
-                <div className="absolute top-0 right-0 bg-cyan-300 text-blue-900 text-xs font-extrabold uppercase py-1 px-4 rounded-bl-xl shadow-lg">
+                <div className="absolute top-0 right-0 bg-cyan-300 text-blue-900 text-xs font-extrabold uppercase py-1 px-4 rounded-bl-xl shadow-md">
                   ⚡ Recommended
                 </div>
               )}
 
-              {/* Icon and Title */}
+              {/* Title */}
               <div
                 className={`flex items-center mb-6 ${
-                  plan.highlight ? "text-cyan-200" : "text-blue-600"
+                  plan.highlight ? "text-cyan-200" : "text-blue-400"
                 }`}
               >
-                <plan.icon className="w-8 h-8 mr-3 fill-current" />
+                <plan.icon className="w-8 h-8 mr-3" />
                 <h3
                   className={`text-3xl font-extrabold ${
-                    plan.highlight ? "text-white" : "text-gray-900"
+                    plan.highlight ? "text-white" : "text-zinc-100"
                   }`}
                 >
                   {plan.name}
@@ -155,32 +139,32 @@ const VPSTiersSection = () => {
               <div className="mb-10 flex items-baseline">
                 <span
                   className={`text-6xl font-black ${
-                    plan.highlight ? "text-white" : "text-blue-700"
+                    plan.highlight ? "text-white" : "text-blue-400"
                   }`}
                 >
                   {plan.price}
                 </span>
                 <span
                   className={`text-2xl font-semibold ml-2 ${
-                    plan.highlight ? "text-cyan-100" : "text-gray-500"
+                    plan.highlight ? "text-cyan-100" : "text-zinc-400"
                   }`}
                 >
                   {plan.billing}
                 </span>
               </div>
 
-              {/* Features List */}
+              {/* Features */}
               <ul className="space-y-4 mb-12">
                 {plan.features.map((feature, i) => (
                   <li key={i} className="flex items-start">
                     <CheckCircle
                       className={`w-5 h-5 mr-3 flex-shrink-0 mt-1 ${
-                        plan.highlight ? "text-cyan-400" : "text-cyan-500"
+                        plan.highlight ? "text-cyan-300" : "text-blue-400"
                       }`}
                     />
                     <p
                       className={`text-base font-medium ${
-                        plan.highlight ? "text-cyan-50" : "text-gray-700"
+                        plan.highlight ? "text-cyan-50" : "text-zinc-300"
                       }`}
                     >
                       {feature}
@@ -189,15 +173,14 @@ const VPSTiersSection = () => {
                 ))}
               </ul>
 
-              {/* CTA Button */}
+              {/* CTA */}
               <motion.button
-                whileTap={{ scale: 0.98 }}
-                className={`w-full py-4 rounded-full font-bold text-lg transition-all duration-300 shadow-xl relative overflow-hidden transform 
-                           ${
-                             plan.highlight
-                               ? "bg-cyan-300 text-blue-900 hover:bg-cyan-200 shadow-cyan-400/70 border-2 border-white/50" // Highly visible, strong contrast
-                               : "bg-gradient-to-r from-blue-500 to-cyan-500 text-white hover:from-blue-600 hover:to-cyan-600 shadow-blue-400/40"
-                           }`}
+                whileTap={{ scale: 0.97 }}
+                className={`w-full py-4 rounded-full font-bold text-lg transition-all duration-300 shadow-xl relative overflow-hidden ${
+                  plan.highlight
+                    ? "bg-cyan-300 text-blue-900 hover:bg-cyan-200 shadow-cyan-400/70 border-2 border-white/30"
+                    : "bg-gradient-to-r from-blue-600 to-cyan-500 text-white hover:from-blue-500 hover:to-cyan-400 shadow-[0_0_25px_rgba(0,150,255,0.4)]"
+                }`}
               >
                 Start Now
               </motion.button>
@@ -205,7 +188,7 @@ const VPSTiersSection = () => {
           ))}
         </motion.div>
 
-        {/* === Explore More Plans Button === */}
+        {/* === Explore More Plans === */}
         <div className="mt-24 flex justify-center">
           <motion.a
             href="/vps-plans"
@@ -215,9 +198,9 @@ const VPSTiersSection = () => {
             viewport={{ once: true, amount: 0.5 }}
             whileHover={{
               scale: 1.05,
-              boxShadow: "0 10px 25px rgba(0, 150, 255, 0.25)",
+              boxShadow: "0 10px 25px rgba(0,150,255,0.3)",
             }}
-            className="inline-flex items-center bg-transparent border-4 border-blue-500/70 text-blue-600 font-extrabold 
+            className="inline-flex items-center bg-transparent border-4 border-blue-500/60 text-blue-400 font-extrabold 
                        px-10 py-4 rounded-full transition-all duration-300 group hover:bg-blue-600 hover:text-white hover:border-blue-600"
           >
             Explore All 10+ VPS Configurations

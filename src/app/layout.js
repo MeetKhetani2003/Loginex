@@ -64,7 +64,6 @@ export const metadata = {
   },
 
   viewport: "width=device-width, initial-scale=1",
-  themeColor: "#ffffff",
 
   alternates: {
     canonical: "https://loginex.ca",
@@ -97,7 +96,7 @@ export default function RootLayout({ children }) {
       </head>
 
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white text-gray-900`}
+        className="bg-zinc-700"
       >
         <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}>
           <SmoothScrollProvider>

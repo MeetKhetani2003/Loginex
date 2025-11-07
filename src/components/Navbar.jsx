@@ -97,7 +97,7 @@ export default function Navbar() {
                     className={`font-medium transition ${
                       isActive
                         ? "text-cyan-400"
-                        : "text-zinc-600 hover:text-cyan-400"
+                        : "text-zinc-100 hover:text-cyan-400"
                     }`}
                   >
                     {link.name}

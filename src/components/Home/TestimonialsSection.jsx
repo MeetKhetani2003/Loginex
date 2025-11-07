@@ -1,7 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
 import React from "react";
-import { Quote } from "lucide-react"; // Imported for the visual icon
+import { Quote } from "lucide-react";
 
 const testimonials = [
   {
@@ -22,7 +22,6 @@ const testimonials = [
     feedback:
       "I host my Minecraft server with Loginex — super low latency and rock-solid uptime.",
   },
-  // Adding more mock data for a smoother, longer marquee effect
   {
     name: "Mia Chang",
     location: "South Korea",
@@ -37,60 +36,46 @@ const testimonials = [
   },
 ];
 
-// Combine the array twice to ensure a seamless looping effect
 const loopedTestimonials = [...testimonials, ...testimonials];
 
-// Helper function to generate a random slight rotation for visual interest
-const getRandomRotation = () => {
-  // Returns a value between -0.25deg and 0.25deg
-  return (Math.random() * 0.5 - 0.25) * 0.5;
-};
+const getRandomRotation = () => (Math.random() * 0.5 - 0.25) * 0.5;
 
 const TestimonialsSection = () => {
   return (
     <>
-      {/* Custom CSS for the marquee effect and the fade mask */}
       <style jsx global>{`
-        /* --- LTR Scroll (Row 1: Left-to-Right) --- */
         @keyframes marquee-scroll-ltr {
           0% {
             transform: translate3d(0, 0, 0);
           }
-          /* Scrolls exactly one full set of testimonials (50% of the doubled content) */
           100% {
             transform: translate3d(-50%, 0, 0);
           }
         }
 
-        /* --- RTL Scroll (Row 2: Right-to-Left) --- */
         @keyframes marquee-scroll-rtl {
-          /* Starts fully translated to the left (50% of doubled content) */
           0% {
             transform: translate3d(-50%, 0, 0);
           }
-          /* Scrolls back to the original position (moves content to the right) */
           100% {
             transform: translate3d(0, 0, 0);
           }
         }
 
         .marquee-content-ltr {
-          animation: marquee-scroll-ltr 40s linear infinite; /* Adjust speed (40s) as needed */
+          animation: marquee-scroll-ltr 40s linear infinite;
         }
 
         .marquee-content-rtl {
-          animation: marquee-scroll-rtl 60s linear infinite; /* Slower speed for contrast */
+          animation: marquee-scroll-rtl 60s linear infinite;
         }
 
-        /* Pause marquee on hover */
         .marquee-content-ltr:hover,
         .marquee-content-rtl:hover {
           animation-play-state: paused;
         }
 
-        /* --- FADE EFFECT MASK --- */
         .marquee-fade {
-          /* Create a horizontal gradient mask: Transparent at 0% (left) and 100% (right), Black in the middle (7%-93%) */
           mask-image: linear-gradient(
             to right,
             transparent 0%,
@@ -108,89 +93,82 @@ const TestimonialsSection = () => {
         }
       `}</style>
 
-      {/* Main Section - Enhanced Light Blue Theme (Horizontal padding removed for edge-to-edge scroll) */}
-      <section className="py-24 bg-gradient-to-b from-white via-blue-50 to-white">
-        <div className="text-center mb-12 px-6 md:px-16 lg:px-28">
-          <h2 className="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 to-blue-600 tracking-tight">
+      <section className="relative py-28 bg-gradient-to-b from-zinc-900 via-zinc-800 to-zinc-900 overflow-hidden border-t border-b border-blue-900/30">
+        {/* Background Glow */}
+        <div className="absolute top-[-250px] left-[-250px] w-[700px] h-[700px] bg-cyan-500/20 blur-[200px] rounded-full"></div>
+        <div className="absolute bottom-[-250px] right-[-250px] w-[700px] h-[700px] bg-blue-600/20 blur-[200px] rounded-full"></div>
+
+        <div className="text-center mb-12 relative z-20 px-6 md:px-16 lg:px-28">
+          <h2 className="text-5xl font-extrabold bg-gradient-to-r from-cyan-400 via-blue-400 to-cyan-300 bg-clip-text text-transparent tracking-tight">
             Trusted by Developers Worldwide
           </h2>
-          <p className="mt-4 text-gray-600 text-lg">
+          <p className="mt-4 text-zinc-300 text-lg">
             Hear what our satisfied users have to say about our reliability and
             speed.
           </p>
         </div>
-        {/* --- Wrapper for both marquee rows and the fade effect --- */}
-        <div className="marquee-fade">
-          {/* --- First Marquee Row (Left-to-Right) --- */}
-          <div className="marquee-container w-full overflow-hidden whitespace-nowrap py-2">
+
+        <div className="marquee-fade relative z-20">
+          {/* Row 1 */}
+          <div className="overflow-hidden whitespace-nowrap py-3">
             <motion.div className="marquee-content-ltr flex">
-              {" "}
-              {/* Applied LTR class */}
               {loopedTestimonials.map((t, i) => (
                 <motion.div
                   key={`row1-${i}`}
-                  // Added: relative positioning for quote, style for slight random rotation
                   style={{ rotate: `${getRandomRotation()}deg` }}
-                  // Card Design: subtle hover scale, 1px gap, cleaner shadow
-                  className="relative w-[300px] min-w-[300px] inline-block p-6 bg-white border border-blue-100 shadow-lg shadow-blue-200/50 
-                               rounded-xl text-center mx-[0.5px] transition-all duration-300 hover:shadow-xl hover:shadow-blue-400/50 hover:scale-[1.01]"
+                  className="relative w-[300px] min-w-[300px] inline-block mx-[0.5px] p-6
+                             bg-gradient-to-br from-zinc-800/80 to-zinc-900/90
+                             border border-blue-500/20
+                             shadow-[0_0_35px_-10px_rgba(0,150,255,0.25)]
+                             rounded-xl text-center transition-all duration-300
+                             hover:shadow-[0_0_55px_-10px_rgba(0,200,255,0.4)] hover:border-cyan-400/40 hover:scale-[1.02]"
                 >
-                  {/* Large, semi-transparent quote icon in the background */}
                   <Quote
                     size={64}
-                    className="absolute top-4 left-4 text-blue-100 opacity-70 z-0"
+                    className="absolute top-4 left-4 text-blue-900 opacity-30 z-0"
                   />
-
-                  <p className="relative text-gray-800 italic mb-4 text-base whitespace-normal font-medium leading-relaxed z-10">
+                  <p className="relative text-zinc-200 italic mb-4 text-base whitespace-normal font-medium leading-relaxed z-10">
                     “{t.feedback}”
                   </p>
-
-                  {/* Visual Separator */}
-                  <div className="relative pt-3 mt-3 border-t border-blue-200 z-10">
-                    <h4 className="font-bold text-blue-800">{t.name}</h4>
-                    <span className="text-gray-500 text-sm">{t.location}</span>
+                  <div className="relative pt-3 mt-3 border-t border-blue-900/40 z-10">
+                    <h4 className="font-bold text-cyan-400">{t.name}</h4>
+                    <span className="text-zinc-400 text-sm">{t.location}</span>
                   </div>
                 </motion.div>
               ))}
             </motion.div>
           </div>
 
-          {/* --- Second Marquee Row (Right-to-Left) --- */}
-          {/* Removed dir="rtl" and now rely purely on the animation for reverse direction */}
-          <div className="marquee-container w-full overflow-hidden whitespace-nowrap py-2 mt-0.5">
-            <motion.div
-              className="marquee-content-rtl flex" // Applied RTL class
-            >
-              {/* Use the testimonials array for the second row */}
+          {/* Row 2 */}
+          <div className="overflow-hidden whitespace-nowrap py-3 mt-1">
+            <motion.div className="marquee-content-rtl flex">
               {loopedTestimonials.map((t, i) => (
                 <motion.div
                   key={`row2-${i}`}
-                  // Added: relative positioning for quote, style for slight random rotation
-                  style={{ rotate: `${getRandomRotation() * -1}deg` }} // Rotate opposite direction for row 2
-                  // Card Design: subtle hover scale, 1px gap, cleaner shadow
-                  className="relative w-[300px] min-w-[300px] inline-block p-6 bg-white border border-blue-100 shadow-lg shadow-blue-200/50 
-                                       rounded-xl text-center mx-[0.5px] transition-all duration-300 hover:shadow-xl hover:shadow-blue-400/50 hover:scale-[1.01]"
+                  style={{ rotate: `${getRandomRotation() * -1}deg` }}
+                  className="relative w-[300px] min-w-[300px] inline-block mx-[0.5px] p-6
+                             bg-gradient-to-br from-zinc-800/80 to-zinc-900/90
+                             border border-blue-500/20
+                             shadow-[0_0_35px_-10px_rgba(0,150,255,0.25)]
+                             rounded-xl text-center transition-all duration-300
+                             hover:shadow-[0_0_55px_-10px_rgba(0,200,255,0.4)] hover:border-cyan-400/40 hover:scale-[1.02]"
                 >
-                  {/* Large, semi-transparent quote icon in the background */}
                   <Quote
                     size={64}
-                    className="absolute top-4 left-4 text-blue-100 opacity-70 z-0"
+                    className="absolute top-4 left-4 text-blue-900 opacity-30 z-0"
                   />
-
-                  <p className="relative text-gray-800 italic mb-4 text-base whitespace-normal font-medium leading-relaxed z-10">
+                  <p className="relative text-zinc-200 italic mb-4 text-base whitespace-normal font-medium leading-relaxed z-10">
                     “{t.feedback}”
                   </p>
-                  {/* Visual Separator */}
-                  <div className="relative pt-3 mt-3 border-t border-blue-200 z-10">
-                    <h4 className="font-bold text-blue-800">{t.name}</h4>
-                    <span className="text-gray-500 text-sm">{t.location}</span>
+                  <div className="relative pt-3 mt-3 border-t border-blue-900/40 z-10">
+                    <h4 className="font-bold text-cyan-400">{t.name}</h4>
+                    <span className="text-zinc-400 text-sm">{t.location}</span>
                   </div>
                 </motion.div>
               ))}
             </motion.div>
           </div>
-        </div>{" "}
-        {/* End of marquee-fade wrapper */}
+        </div>
       </section>
     </>
   );

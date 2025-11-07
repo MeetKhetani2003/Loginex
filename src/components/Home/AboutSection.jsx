@@ -1,13 +1,10 @@
 "use client";
 import React from "react";
-import { motion, useMotionValue, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import Image from "next/image";
 import aboutImg from "../../assets/about.jpg";
 
 const AboutSection = () => {
-  // Removed mouseX, mouseY, rotateX, rotateY, and handleMouseMove
-  // as the image should no longer tilt.
-
   const textVariants = {
     hidden: { opacity: 0, x: -100 },
     visible: {
@@ -25,13 +22,19 @@ const AboutSection = () => {
   return (
     <section
       className="relative flex flex-col-reverse md:flex-row items-center justify-between max-w-8xl mx-auto
-                 gap-16 py-32 px-6 md:px-16 lg:px-28
-                 bg-[#f9fcff] overflow-hidden border-b border-gray-100/70"
+                 gap-16 py-32 px-6 md:px-16 lg:px-28 overflow-hidden border-b border-zinc-700/60
+                 bg-gradient-to-b from-zinc-900 via-zinc-800 to-zinc-900 text-zinc-100"
     >
-      {/* === BACKGROUND EFFECTS === */}
+      {/* === BACKGROUND EFFECTS (Refined Blue Glows) === */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-[-250px] left-[5%] w-[800px] h-[800px] bg-cyan-300/60 blur-[200px] opacity-30 rounded-full"></div>
-        <div className="absolute bottom-[-300px] right-[0%] w-[700px] h-[700px] bg-blue-400/60 blur-[220px] opacity-30 rounded-full"></div>
+        {/* Soft deep blue glow (top-left) */}
+        <div className="absolute top-[-250px] left-[5%] w-[800px] h-[800px] bg-blue-500/40 blur-[250px] rounded-full"></div>
+
+        {/* Bright cool blue glow (bottom-right) */}
+        <div className="absolute bottom-[-300px] right-[0%] w-[700px] h-[700px] bg-blue-400/50 blur-[250px] rounded-full"></div>
+
+        {/* Subtle ambient wash */}
+        <div className="absolute inset-0 bg-gradient-to-tr from-blue-900/40 via-transparent to-indigo-900/30 mix-blend-overlay" />
       </div>
 
       {/* === LEFT TEXT === */}
@@ -48,10 +51,10 @@ const AboutSection = () => {
             visible: { opacity: 1, y: 0 },
           }}
           className="text-5xl md:text-6xl font-extrabold 
-                     bg-gradient-to-r from-blue-700 via-cyan-500 to-blue-600
-                     bg-clip-text text-transparent drop-shadow-md tracking-tight"
+                     bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600
+                     bg-clip-text text-transparent drop-shadow-[0_0_25px_rgba(0,150,255,0.4)] tracking-tight"
         >
-          Discover <span className="text-blue-800">Loginex</span>
+          Discover <span className="text-blue-400">Loginex</span>
         </motion.h2>
 
         <motion.div
@@ -63,7 +66,7 @@ const AboutSection = () => {
               transition: { duration: 0.6, delay: 0.2 },
             },
           }}
-          className="w-1/4 h-1.5 mb-10 bg-gradient-to-r from-blue-600 to-cyan-400 rounded-full origin-left"
+          className="w-1/4 h-1.5 mb-10 bg-gradient-to-r from-blue-600 to-blue-400 rounded-full origin-left shadow-[0_0_20px_rgba(0,150,255,0.5)]"
         />
 
         <motion.p
@@ -74,62 +77,71 @@ const AboutSection = () => {
             boxShadow: "0 10px 40px rgba(0, 150, 255, 0.15)",
           }}
           transition={{ duration: 0.3 }}
-          className="text-gray-700 text-lg leading-relaxed bg-white/80 backdrop-blur-md
-                     border border-blue-300/50 rounded-[2rem] shadow-[0_4px_40px_-10px_rgba(0,180,255,0.08)] p-8
-                     transition-all duration-500 will-change-transform"
+          className="text-zinc-200 text-lg leading-relaxed bg-zinc-800/60 backdrop-blur-md
+             border border-blue-500/30 rounded-[2rem] shadow-[0_4px_40px_-10px_rgba(0,150,255,0.15)] p-8
+             transition-all duration-500"
         >
-          <span className="font-extrabold text-blue-700">Loginex</span> is your
-          all-in-one platform for <strong>high-performance VPS servers</strong>,
-          scalable <strong>cloud infrastructure</strong>, and expert{" "}
-          <strong>web development solutions</strong>.
+          <span className="font-extrabold text-blue-400">Loginex</span> is your
+          all-in-one platform for
+          <strong className="text-zinc-100">
+            high-performance VPS servers
+          </strong>
+          , scalable
+          <strong className="text-zinc-100">cloud infrastructure</strong>, and
+          expert
+          <strong className="text-zinc-100">web development solutions</strong>.
           <br />
           <br />
-          We empower individuals and enterprises globally with{" "}
-          <span className="text-cyan-600 font-bold">
+          We empower individuals and enterprises globally with
+          <span className="text-blue-400 font-bold">
             cutting-edge technology
           </span>
           , an unyielding focus on
-          <span className="text-blue-600 font-bold"> security</span>, and{" "}
-          <span className="text-blue-500 font-bold">
+          <span className="text-blue-400 font-bold">security</span>, and
+          <span className="text-blue-300 font-bold">
             dedicated 24/7 expert support
           </span>
           . Experience speed, reliability, and unparalleled scalability.
         </motion.p>
-
+        {/* === STATS (Dark Mode Themed) === */}
         <div
           className="mt-8 flex flex-wrap justify-between gap-4 p-5 rounded-xl
-                        bg-gradient-to-r from-white to-blue-50 border border-blue-200 shadow-lg shadow-blue-100/50"
+             bg-gradient-to-r from-zinc-900/70 via-zinc-800/60 to-zinc-900/70
+             border border-blue-500/30 shadow-[0_0_40px_-10px_rgba(0,150,255,0.25)]"
         >
           <motion.div
             variants={itemVariants}
             whileHover={{ scale: 1.05 }}
-            className="text-center flex-1 min-w-[100px] border-r border-blue-200 last:border-r-0"
+            className="text-center flex-1 min-w-[100px] border-r border-blue-500/20 last:border-r-0"
           >
-            <p className="text-4xl font-extrabold text-blue-700">99.9%</p>
-            <p className="text-sm text-gray-600 mt-1 font-medium">Uptime SLA</p>
+            <p className="text-4xl font-extrabold text-blue-400">99.9%</p>
+            <p className="text-sm text-zinc-300 mt-1 font-medium">Uptime SLA</p>
           </motion.div>
+
           <motion.div
             variants={itemVariants}
             whileHover={{ scale: 1.05 }}
-            className="text-center flex-1 min-w-[100px] border-r border-blue-200 last:border-r-0"
+            className="text-center flex-1 min-w-[100px] border-r border-blue-500/20 last:border-r-0"
           >
-            <p className="text-4xl font-extrabold text-blue-700">20+</p>
-            <p className="text-sm text-gray-600 mt-1 font-medium">
+            <p className="text-4xl font-extrabold text-cyan-400">20+</p>
+            <p className="text-sm text-zinc-300 mt-1 font-medium">
               Global Regions
             </p>
           </motion.div>
+
           <motion.div
             variants={itemVariants}
             whileHover={{ scale: 1.05 }}
-            className="text-center flex-1 min-w-[100px] border-r border-blue-200 last:border-r-0"
+            className="text-center flex-1 min-w-[100px]"
           >
-            <p className="text-4xl font-extrabold text-blue-700">5K+</p>
-            <p className="text-sm text-gray-600 mt-1 font-medium">
+            <p className="text-4xl font-extrabold text-blue-400">5K+</p>
+            <p className="text-sm text-zinc-300 mt-1 font-medium">
               Active Servers
             </p>
           </motion.div>
         </div>
 
+        {/* === CTA Button === */}
         <motion.button
           variants={{
             hidden: { opacity: 0, y: 40 },
@@ -137,62 +149,55 @@ const AboutSection = () => {
           }}
           whileHover={{
             scale: 1.06,
-            boxShadow: "0 15px 45px rgba(0, 180, 255, 0.5)",
+            boxShadow: "0 15px 45px rgba(0, 180, 255, 0.6)",
             y: -4,
           }}
           whileTap={{ scale: 0.98 }}
-          className="mt-12 bg-gradient-to-r from-[#00b4ff] to-[#34d6d3] text-white px-12 py-4
-                     rounded-full font-bold text-lg shadow-2xl shadow-cyan-400/50
+          className="mt-12 bg-gradient-to-r from-blue-600 via-blue-500 to-blue-700 text-white px-12 py-4
+                     rounded-full font-bold text-lg shadow-[0_0_25px_rgba(0,180,255,0.45)]
                      relative overflow-hidden group transition-all duration-500"
         >
-          <div className="absolute inset-0 rounded-full border-4 border-white/0 group-hover:border-white/50 transition-all duration-500"></div>
+          <div className="absolute inset-0 rounded-full border-4 border-white/0 group-hover:border-white/20 transition-all duration-500"></div>
           Explore VPS Plans
         </motion.button>
       </motion.div>
 
-      {/* === RIGHT BIGGER IMAGE (No Tilt, No Border, No Shadow, Covers Right Part) === */}
+      {/* === RIGHT IMAGE === */}
       <motion.div
         initial={{ opacity: 0, x: 100, scale: 0.9 }}
         whileInView={{ opacity: 1, x: 0, scale: 1 }}
         transition={{ duration: 1.1, ease: "easeInOut" }}
         viewport={{ once: true, amount: 0.3 }}
-        // Removed onMouseMove
-        className="relative z-10 w-full md:w-[50%] flex justify-center items-center" // Adjusted width and added items-center for vertical centering
+        className="relative z-10 w-full md:w-[50%] flex justify-center items-center"
       >
         <motion.div
-          // Removed style={{ rotateX, rotateY }}
-          animate={{ y: [0, -10, 0] }} // Subtle vertical float remains for life
+          animate={{ y: [0, -10, 0] }}
           transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-          // Removed border, shadow, and background classes for a clean look
-          className="relative rounded-[2.5rem] overflow-hidden w-[95%] h-[550px] md:h-[650px] lg:h-[700px] flex items-center justify-center
-                     bg-gradient-to-br from-blue-100/70 via-cyan-100/70 to-blue-200/70 p-2" // Added a very subtle gradient background and padding
+          className="relative rounded-[2.5rem] overflow-hidden w-[95%] h-[550px] md:h-[650px] lg:h-[700px]
+                     bg-gradient-to-br from-blue-950/50 via-zinc-800/70 to-blue-900/50 p-2"
         >
           <Image
             src={aboutImg}
             alt="About Loginex"
             width={900}
             height={700}
-            className="w-full h-full rounded-[2.2rem] object-cover" // Ensure image covers its container
+            className="w-full h-full rounded-[2.2rem] object-cover opacity-95"
             priority
           />
 
-          {/* Existing Gradient overlay - made it slightly stronger to blend with new background */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/15 via-transparent to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent"></div>
 
-          {/* Inner Glow is removed as per "no borders and shadows" for a simpler look, 
-              but a very subtle full-image overlay for enhancement can be considered.
-              Let's add a very subtle, static overlay for perceived depth. */}
           <div
             className="absolute inset-0 rounded-[2.2rem] pointer-events-none 
-                       bg-gradient-to-tr from-blue-300/10 via-transparent to-cyan-300/10 mix-blend-overlay"
+                       bg-gradient-to-tr from-blue-500/20 via-transparent to-blue-400/20 mix-blend-overlay"
           ></div>
         </motion.div>
 
-        {/* Glow Behind Image - Enhanced and moved for better effect */}
+        {/* Blue Glow Behind Image */}
         <motion.div
           animate={{ scale: [1, 1.05, 1] }}
           transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute -z-10 w-[95%] md:w-[105%] h-[90%] bg-blue-300/40 blur-[180px] rounded-full"
+          className="absolute -z-10 w-[95%] md:w-[105%] h-[90%] bg-blue-500/35 blur-[180px] rounded-full"
         />
       </motion.div>
     </section>

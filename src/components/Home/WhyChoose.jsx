@@ -9,20 +9,16 @@ import {
   HardDrive,
 } from "lucide-react";
 
-// The ENHANCED Abstract Illustration representing Speed, Security, and Support (The "Data Nexus")
+// === Abstract Animated Illustration (Dark Theme Optimized) ===
 const AbstractIconIllustration = () => {
-  // Animation variants for the container (used for staggered children)
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: {
-        staggerChildren: 0.3,
-      },
+      transition: { staggerChildren: 0.3 },
     },
   };
 
-  // Variants for individual moving elements
   const itemVariants = {
     hidden: { opacity: 0, scale: 0.5 },
     visible: {
@@ -32,7 +28,6 @@ const AbstractIconIllustration = () => {
     },
   };
 
-  // Component for a simple animated data point
   const DataNode = ({ style, delay, color }) => (
     <motion.div
       className={`absolute w-3 h-3 rounded-full ${color} opacity-80 z-20`}
@@ -49,29 +44,23 @@ const AbstractIconIllustration = () => {
 
   return (
     <motion.div
-      // Increased height to 450px and slightly wider max-w-xl
       className="relative w-full max-w-xl h-[450px] mx-auto flex items-center justify-center"
       variants={containerVariants}
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.5 }}
     >
-      {/* 1. Central Glowing Core (Ambient Light) */}
-      <div className="absolute inset-10 rounded-full bg-blue-200/50 blur-3xl opacity-70" />
+      {/* === Ambient Core Glow === */}
+      <div className="absolute inset-10 rounded-full bg-blue-500/20 blur-3xl opacity-60" />
 
-      {/* NEW: Abstract Grid/Circuit Lines (Fills background space) */}
+      {/* === Grid Lines (Cooler tones for dark mode) === */}
       <motion.div
         className="absolute w-full h-full p-4"
         initial={{ opacity: 0 }}
-        whileInView={{ opacity: 0.3 }}
+        whileInView={{ opacity: 0.25 }}
         transition={{ duration: 1 }}
       >
-        <svg
-          className="w-full h-full"
-          viewBox="0 0 100 100"
-          preserveAspectRatio="none"
-        >
-          {/* Horizontal Lines (Infrastructure) */}
+        <svg className="w-full h-full" viewBox="0 0 100 100">
           {[10, 30, 50, 70, 90].map((y) => (
             <line
               key={`h-${y}`}
@@ -79,11 +68,10 @@ const AbstractIconIllustration = () => {
               y1={`${y}%`}
               x2="100%"
               y2={`${y}%`}
-              stroke="#BFDBFE" // blue-200
+              stroke="#1E3A8A" // blue-900 tone
               strokeWidth="0.5"
             />
           ))}
-          {/* Vertical Lines (Infrastructure) */}
           {[10, 30, 50, 70, 90].map((x) => (
             <line
               key={`v-${x}`}
@@ -91,30 +79,30 @@ const AbstractIconIllustration = () => {
               y1="0"
               x2={`${x}%`}
               y2="100%"
-              stroke="#BFDBFE" // blue-200
+              stroke="#1E3A8A"
               strokeWidth="0.5"
             />
           ))}
-          {/* Diagonal Lines (Animated Data Paths) */}
+          {/* Animated Data Paths */}
           <motion.line
             x1="10%"
             y1="10%"
             x2="90%"
             y2="90%"
-            stroke="#06B6D4" // cyan-500
+            stroke="#06B6D4"
             strokeWidth="1"
             initial={{ pathLength: 0 }}
             animate={{ pathLength: 1 }}
             transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
-            strokeDasharray="1 50" // Dashed line for movement illusion
-            opacity="0.3"
+            strokeDasharray="1 50"
+            opacity="0.4"
           />
           <motion.line
             x1="90%"
             y1="10%"
             x2="10%"
             y2="90%"
-            stroke="#2563EB" // blue-600
+            stroke="#3B82F6"
             strokeWidth="1"
             initial={{ pathLength: 0 }}
             animate={{ pathLength: 1 }}
@@ -124,87 +112,66 @@ const AbstractIconIllustration = () => {
               ease: "linear",
               delay: 2.5,
             }}
-            strokeDasharray="1 50" // Dashed line for movement illusion
-            opacity="0.3"
+            strokeDasharray="1 50"
+            opacity="0.4"
           />
         </svg>
       </motion.div>
 
-      {/* 2. Outer Rotating Ring (Represents Infrastructure and Support) */}
+      {/* === Outer Ring === */}
       <motion.div
-        className="absolute w-80 h-80 border border-blue-400 rounded-full opacity-30" // Increased size
+        className="absolute w-80 h-80 border border-blue-400/30 rounded-full"
         animate={{ rotate: 360 }}
         transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
       />
 
-      {/* 3. Inner Pulsing Ring (Represents Speed and Data Flow) */}
+      {/* === Inner Pulsing Ring === */}
       <motion.div
-        className="absolute w-60 h-60 border-2 border-cyan-500 rounded-full opacity-70" // Increased size
-        animate={{ scale: [1, 1.05, 1], opacity: [0.7, 0.9, 0.7] }}
+        className="absolute w-60 h-60 border-2 border-cyan-400/70 rounded-full"
+        animate={{ scale: [1, 1.05, 1], opacity: [0.5, 0.9, 0.5] }}
         transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
       />
 
-      {/* 4. Primary Center Element (Reliability/ShieldCheck) */}
+      {/* === Central Shield === */}
       <motion.div
-        className="relative p-8 bg-white rounded-full shadow-2xl shadow-blue-500/50 border-4 border-blue-600 z-10" // Increased padding
+        className="relative p-8 bg-gradient-to-br from-zinc-900 to-blue-950 rounded-full border-4 border-blue-600 shadow-[0_0_40px_-5px_rgba(0,150,255,0.4)] z-10"
         variants={itemVariants}
-        initial={{ scale: 0.5, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ type: "spring", stiffness: 150, damping: 15 }}
       >
-        <ShieldCheck size={55} className="text-blue-600" />{" "}
-        {/* Increased icon size */}
+        <ShieldCheck size={55} className="text-cyan-400" />
       </motion.div>
 
-      {/* 5. Element 1: Speed Icon (Subtle orbital motion) */}
+      {/* === Orbiting Icons === */}
       <motion.div
-        className="absolute p-3 bg-white rounded-full shadow-xl border-2 border-cyan-300 z-20"
-        style={{ top: "15%", right: "15%" }} // Adjusted position
-        variants={itemVariants}
-        animate={{ x: [0, 8, 0], y: [0, -8, 0] }}
-        transition={{
-          duration: 6,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: 1,
-        }}
-      >
-        <Zap size={24} className="text-cyan-500" />
-      </motion.div>
-
-      {/* 6. Element 2: Support Icon (Subtle orbital motion) */}
-      <motion.div
-        className="absolute p-3 bg-white rounded-full shadow-xl border-2 border-blue-300 z-20"
-        style={{ bottom: "15%", left: "15%" }} // Adjusted position
-        variants={itemVariants}
-        animate={{ x: [0, -8, 0], y: [0, 8, 0] }}
-        transition={{
-          duration: 6,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: 2,
-        }}
-      >
-        <UserCheck size={24} className="text-blue-500" />
-      </motion.div>
-
-      {/* NEW Element 7: Cloud/Storage Icon (Third major orbital element) */}
-      <motion.div
-        className="absolute p-3 bg-white rounded-full shadow-xl border-2 border-gray-300 z-20"
-        style={{ bottom: "10%", right: "40%" }} // New position
+        className="absolute p-3 bg-zinc-900 border-2 border-cyan-500/40 rounded-full shadow-[0_0_15px_rgba(0,200,255,0.2)]"
+        style={{ top: "15%", right: "15%" }}
         variants={itemVariants}
         animate={{ y: [0, -10, 0] }}
-        transition={{
-          duration: 5,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: 3,
-        }}
+        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
       >
-        <HardDrive size={24} className="text-gray-600" />
+        <Zap size={24} className="text-cyan-400" />
       </motion.div>
 
-      {/* NEW Corner Data Nodes (Increased Density) */}
+      <motion.div
+        className="absolute p-3 bg-zinc-900 border-2 border-blue-500/40 rounded-full shadow-[0_0_15px_rgba(0,150,255,0.2)]"
+        style={{ bottom: "15%", left: "15%" }}
+        variants={itemVariants}
+        animate={{ y: [0, 10, 0] }}
+        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+      >
+        <UserCheck size={24} className="text-blue-400" />
+      </motion.div>
+
+      <motion.div
+        className="absolute p-3 bg-zinc-900 border-2 border-cyan-400/40 rounded-full shadow-[0_0_15px_rgba(0,200,255,0.25)]"
+        style={{ bottom: "10%", right: "40%" }}
+        variants={itemVariants}
+        animate={{ y: [0, -8, 0] }}
+        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+      >
+        <HardDrive size={24} className="text-cyan-300" />
+      </motion.div>
+
+      {/* === Data Nodes === */}
       <DataNode
         style={{ top: "5%", left: "10%" }}
         delay={0.5}
@@ -248,58 +215,64 @@ const chooseUsPoints = [
   },
 ];
 
+// === Main Section ===
 const WhyChooseUsSection = () => {
   return (
-    <section className="py-24 px-6 md:px-16 lg:px-28 bg-white">
-      <div className="text-center mb-16">
-        <h2 className="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-700 to-cyan-500 tracking-tight">
-          Why Loginex is Your Best Choice
-        </h2>
-      </div>
+    <section className="relative py-28 px-6 md:px-16 lg:px-28 bg-gradient-to-b from-zinc-900 via-zinc-800 to-zinc-900 overflow-hidden text-zinc-100">
+      {/* Glowing Background Elements */}
+      <div className="absolute top-[-200px] right-[-200px] w-[600px] h-[600px] bg-blue-500/40 blur-[200px] rounded-full"></div>
+      <div className="absolute bottom-[-200px] left-[-200px] w-[600px] h-[600px] bg-cyan-500/30 blur-[200px] rounded-full"></div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-        {/* LEFT COLUMN: SVG Illustration */}
-        <div className="lg:order-1 order-2">
-          <AbstractIconIllustration />
+      <div className="max-w-7xl mx-auto relative z-20">
+        <div className="text-center mb-16">
+          <h2 className="text-5xl font-extrabold bg-gradient-to-r from-cyan-400 via-blue-400 to-cyan-400 bg-clip-text text-transparent">
+            Why <span className="text-cyan-400">Loginex</span> is Your Best
+            Choice
+          </h2>
         </div>
 
-        {/* RIGHT COLUMN: Text Content */}
-        <div className="lg:order-2 order-1">
-          <motion.p
-            className="text-gray-700 text-lg leading-relaxed mb-8"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true, amount: 0.5 }}
-          >
-            Choosing Loginex means selecting a partner dedicated to your digital
-            success. We don't just provide hosting; we provide a fully managed,
-            optimized ecosystem where your websites, Minecraft servers, and
-            applications can run at peak efficiency. From our global,
-            low-latency network to our commitment to instant, expert human
-            support, we handle the infrastructure so you can focus entirely on
-            development and user experience.
-          </motion.p>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          {/* Illustration */}
+          <div className="lg:order-1 order-2">
+            <AbstractIconIllustration />
+          </div>
 
-          <div className="space-y-6">
-            {chooseUsPoints.map((point, i) => (
-              <motion.div
-                key={i}
-                className="flex items-start"
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ delay: i * 0.1, duration: 0.5 }}
-                viewport={{ once: true, amount: 0.5 }}
-              >
-                <CheckCircle className="flex-shrink-0 w-6 h-6 text-cyan-500 mt-1 mr-3" />
-                <div>
-                  <h3 className="text-xl font-bold text-gray-800 tracking-tight">
-                    {point.title}
-                  </h3>
-                  <p className="text-gray-600 mt-1">{point.desc}</p>
-                </div>
-              </motion.div>
-            ))}
+          {/* Text */}
+          <div className="lg:order-2 order-1">
+            <motion.p
+              className="text-zinc-300 text-lg leading-relaxed mb-8"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true, amount: 0.5 }}
+            >
+              Choosing Loginex means selecting a partner dedicated to your
+              digital success. We don’t just provide hosting — we deliver an
+              optimized ecosystem where your websites, servers, and applications
+              run at peak performance, backed by instant human support and a
+              robust global network.
+            </motion.p>
+
+            <div className="space-y-6">
+              {chooseUsPoints.map((point, i) => (
+                <motion.div
+                  key={i}
+                  className="flex items-start"
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ delay: i * 0.1, duration: 0.5 }}
+                  viewport={{ once: true, amount: 0.5 }}
+                >
+                  <CheckCircle className="flex-shrink-0 w-6 h-6 text-cyan-400 mt-1 mr-3" />
+                  <div>
+                    <h3 className="text-xl font-bold text-zinc-100 tracking-tight">
+                      {point.title}
+                    </h3>
+                    <p className="text-zinc-400 mt-1">{point.desc}</p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
           </div>
         </div>
       </div>

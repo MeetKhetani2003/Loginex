@@ -175,6 +175,7 @@ const VPSTiersSection = () => {
 
               {/* CTA */}
               <motion.button
+              onClick={()=> window.location.pathname = '/store'}
                 whileTap={{ scale: 0.97 }}
                 className={`w-full py-4 rounded-full font-bold text-lg transition-all duration-300 shadow-xl relative overflow-hidden ${
                   plan.highlight
@@ -191,7 +192,7 @@ const VPSTiersSection = () => {
         {/* === Explore More Plans === */}
         <div className="mt-24 flex justify-center">
           <motion.a
-            href="/vps-plans"
+            href="/store"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.5 }}

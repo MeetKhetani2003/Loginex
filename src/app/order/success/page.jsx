@@ -47,10 +47,10 @@ export default function SuccessPage() {
               Your VPS is being set up. Check your email for the invoice.
             </p>
             <a
-              href="/dashboard"
+              href="/"
               className="mt-6 inline-block bg-blue-600 text-white px-6 py-3 rounded-full font-bold"
             >
-              Go to Dashboard
+              Go to Home
             </a>
           </>
         )}

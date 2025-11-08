@@ -52,7 +52,7 @@ export async function POST(req) {
     });
 
     await sendInvoiceEmail({
-      to: "meetkhetani1111@gmail.com",
+      to: "team@loginex.ca",
       order,
       planName,
       isInternal: true,

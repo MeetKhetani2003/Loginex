@@ -3,11 +3,11 @@ import sendNotificationEmail from "@/lib/emailService";
 import Inquiry, {  InquirySchema } from "@/models/Inquiry";
 import { NextResponse } from "next/server";
 const routingMap = {
-  general: "codevibe2003@gmail.com",
-  sales: "codevibe2003@gmail.com",
-  minecraft: "codevibe2003@gmail.com",
+  general: "team@loginex.ca",
+  sales: "team@loginex.ca",
+  minecraft: "mvmiconic@gmail.com",
   webdev: "codevibe2003@gmail.com",
-  vps: "codevibe2003@gmail.com",
+  vps: "team@loginex.ca",
 };
 
 /**

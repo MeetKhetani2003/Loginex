@@ -67,6 +67,7 @@ const HeroSection = () => {
           className="flex justify-center md:justify-start gap-4"
         >
           <button
+            onClick={() => (window.location.pathname = "/store")}
             className="bg-gradient-to-r from-blue-600 via-cyan-500 to-blue-700 text-white px-9 py-4 
                        rounded-full font-bold text-lg shadow-[0_0_25px_rgba(0,180,255,0.45)]
                        hover:shadow-[0_0_35px_rgba(0,200,255,0.7)] hover:scale-[1.05]
@@ -75,6 +76,7 @@ const HeroSection = () => {
             Start Your Free Trial
           </button>
           <button
+            onClick={() => (window.location.pathname = "/store")}
             className="border-2 border-blue-400 text-blue-400 px-9 py-4 rounded-full 
                        font-semibold text-lg hover:bg-blue-500/15 hover:scale-[1.05]
                        transition-all duration-300"

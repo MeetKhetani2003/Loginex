@@ -25,7 +25,7 @@ const servicesData = [
   {
     id: "minecraft",
     icon: Server,
-    title: "High-Performance Minecraft Hosting",
+    title: "High-Performance Minecraft Developement",
     subtitle: "Lag-Free Gameplay with Optimized Hardware and Mod Support.",
     theme: "text-orange-400",
     gradient: "from-blue-900/20 to-blue-800/40",
@@ -64,17 +64,17 @@ const servicesData = [
       "SEO optimization and high performance grading.",
       "Scalable deployment strategies (Vercel, AWS, DigitalOcean).",
     ],
-    pricing: "Projects start at $1,500",
+    pricing: "Projects start at $150",
     stats: [
-      { count: "100+", label: "Projects Launched" },
+      { count: "20+", label: "Projects Launched" },
       { count: "4.9", label: "Page Speed" },
       { count: "100%", label: "Satisfaction" },
     ],
     testimonial: {
       feedback:
-        "Loginex delivered our e-commerce site faster than quoted. Their technical expertise with modern frameworks made the site incredibly fast and easy to manage.",
-      name: "Priya Soni",
-      role: "E-commerce Founder",
+        "Loginex delivered our Restaurant and Frozenfood online store websites faster than quoted. Their technical expertise with modern frameworks made the site incredibly fast and easy to manage.",
+      name: "Utsav Patel",
+      role: "Groovy Foods CEO",
     },
     visualIcon: GanttChart,
   },
@@ -92,16 +92,16 @@ const servicesData = [
       "Choice of Linux OS and one-click firewall setup.",
       "Perfect for hosting Docker, websites, bots, and multiple game servers.",
     ],
-    pricing: "Starting at $29.99/mo",
+    pricing: "Starting at $1.99/mo",
     stats: [
       { count: "99.99%", label: "Uptime" },
-      { count: "5+", label: "Data Centers" },
-      { count: "10k+", label: "Instances" },
+      { count: "2+", label: "Data Centers" },
+      { count: "100+", label: "Instances" },
     ],
     testimonial: {
       feedback:
         "The Pterodactyl panel integration is a game-changer. Managing multiple services across different OSs is incredibly simple and reliable.",
-      name: "David K.",
+      name: "Kamal Mathur",
       role: "DevOps Engineer",
     },
     visualIcon: Monitor,

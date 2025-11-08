@@ -340,9 +340,9 @@ const VPSPlansPage = () => {
             transition={{ delay: 0.6, duration: 0.5 }}
             className="mt-10 flex justify-center gap-4"
           >
-            <button className="flex items-center gap-2 bg-blue-600 text-white px-8 py-3 rounded-full font-semibold shadow-xl shadow-blue-300/50 hover:bg-blue-500 transition">
+            {/* <button className="flex items-center gap-2 bg-blue-600 text-white px-8 py-3 rounded-full font-semibold shadow-xl shadow-blue-300/50 hover:bg-blue-500 transition">
               <BarChart3 size={20} /> View Performance Stats
-            </button>
+            </button> */}
           </motion.div>
         </div>
       </section>

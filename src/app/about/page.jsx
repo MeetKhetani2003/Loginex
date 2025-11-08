@@ -10,31 +10,35 @@ import {
   Zap,
   ShieldCheck,
 } from "lucide-react";
-
+// import dataCenter from "@/assets/datacenter.webp";
+// import anshBhai from '/anshbhai.webp'
+// import niravBhai from "@/assets/Niravbhai.webp";
+// import jasjotbhai from "@/assets/jasjotbhai.jpeg";
+// import meetBhai from ''
 const teamMembers = [
   {
-    name: "Atlas",
-    rank: "Lead Architect",
-    role: "Backend Infrastructure",
-    imageUrl: "https://placehold.co/120x120/1E40AF/ffffff?text=A",
+    name: "Ansh",
+    rank: "CEO",
+    role: "Director",
+    imageUrl: '/anshbhai.webp',
   },
   {
-    name: "Nyx",
-    rank: "Community Manager",
-    role: "Discord Support & Engagement",
-    imageUrl: "https://placehold.co/120x120/B91C1C/ffffff?text=N",
+    name: "Meet",
+    rank: "Co-Founder",
+    role: "Technical Support and Developement",
+    imageUrl: '/meet.webp',
   },
   {
-    name: "Zeno",
-    rank: "Operations Head",
-    role: "System Uptime & Monitoring",
-    imageUrl: "https://placehold.co/120x120/059669/ffffff?text=Z",
+    name: "Nirav",
+    rank: "Operation Manager",
+    role: "Server Management and Game Management",
+    imageUrl: '/Niravbhai.webp',
   },
   {
-    name: "Kore",
-    rank: "Creative Lead",
-    role: "UI/UX & Design",
-    imageUrl: "https://placehold.co/120x120/9333EA/ffffff?text=K",
+    name: "Jasjot",
+    rank: "Social Media Manager",
+    role: "Premotional support and YT management",
+    imageUrl: 'jasjotbhai.jpeg',
   },
 ];
 
@@ -132,7 +136,7 @@ const AboutPage = () => {
             className="hidden lg:block w-full h-full min-h-[400px] rounded-3xl overflow-hidden shadow-2xl shadow-blue-900/40"
           >
             <img
-              src="https://placehold.co/700x500/1D4ED8/ffffff?text=Data+Center+View"
+              src='/datacenter.webp'
               alt="Modern data center server racks"
               className="w-full h-full object-cover transition duration-500 hover:scale-105"
             />

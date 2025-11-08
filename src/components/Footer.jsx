@@ -10,8 +10,11 @@ import {
   Globe,
   Server,
   Code,
+  Instagram,
+  Music,
 } from "lucide-react";
-
+import { FaTiktok } from "react-icons/fa6";
+import { BsDiscord } from "react-icons/bs";
 // Navigation links
 const navSections = [
   {
@@ -47,9 +50,13 @@ const navSections = [
 ];
 
 const socialLinks = [
-  { href: "#", icon: Twitter, label: "Twitter" },
-  { href: "#", icon: Linkedin, label: "LinkedIn" },
-  { href: "#", icon: Github, label: "GitHub" },
+  {
+    href: "https://www.instagram.com/hosting_loginex.ca?igsh=MWhkbHZrMHhiZWF4NA%3D%3D&utm_source=qr",
+    icon: Instagram,
+    label: "Instagram",
+  },
+  { href: "#", icon: FaTiktok, label: "TikTok" },
+  { href: "https://discord.gg/KTgTDH2CHN", icon: BsDiscord, label: "Discord" },
 ];
 
 const Footer = () => {
@@ -74,15 +81,20 @@ const Footer = () => {
             <div className="text-sm space-y-3 pt-4">
               <p className="flex items-center gap-3 text-gray-300 hover:text-cyan-400 transition-colors font-medium">
                 <Mail size={18} className="text-cyan-400 flex-shrink-0" />
-                support@loginex.com
+                team@loginex.ca
               </p>
               <p className="flex items-center gap-3 text-gray-300 hover:text-cyan-400 transition-colors font-medium">
                 <Phone size={18} className="text-cyan-400 flex-shrink-0" />
-                +91 98765 43210
+                +91 63531 21773 (India)
               </p>
+              <p className="flex items-center gap-3 text-gray-300 hover:text-cyan-400 transition-colors font-medium">
+                <Phone size={18} className="text-cyan-400 flex-shrink-0" />
+                +1 77889 98845 (International)
+              </p>
+
               <p className="flex items-center gap-3 text-gray-300 font-medium">
                 <MapPin size={18} className="text-cyan-400 flex-shrink-0" />
-                Mumbai, India (Global HQ)
+                Vancouver,Canada (HQ Global Support)
               </p>
             </div>
           </div>

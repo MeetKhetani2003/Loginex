@@ -123,7 +123,7 @@ const AboutSection = () => {
             whileHover={{ scale: 1.05 }}
             className="text-center flex-1 min-w-[100px] border-r border-blue-500/20 last:border-r-0"
           >
-            <p className="text-4xl font-extrabold text-cyan-400">20+</p>
+            <p className="text-4xl font-extrabold text-cyan-400">4+</p>
             <p className="text-sm text-zinc-300 mt-1 font-medium">
               Global Regions
             </p>
@@ -134,15 +134,15 @@ const AboutSection = () => {
             whileHover={{ scale: 1.05 }}
             className="text-center flex-1 min-w-[100px]"
           >
-            <p className="text-4xl font-extrabold text-blue-400">5K+</p>
+            <p className="text-4xl font-extrabold text-blue-400">100+</p>
             <p className="text-sm text-zinc-300 mt-1 font-medium">
               Active Servers
             </p>
           </motion.div>
         </div>
 
-        {/* === CTA Button === */}
         <motion.button
+        onClick={()=> window.location.pathname ='/store'}
           variants={{
             hidden: { opacity: 0, y: 40 },
             visible: { opacity: 1, y: 0 },
